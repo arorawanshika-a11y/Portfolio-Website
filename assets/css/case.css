@@ -195,3 +195,19 @@ img { display: block; max-width: 100%; }
   height: var(--fade, 12%); pointer-events: none;
   background: linear-gradient(to bottom, transparent, var(--seam, var(--bg)));
 }
+/* Film that cross-fades into the band below it instead of ending on a hard edge */
+.cs-band--xfade {
+  z-index: 2;
+  margin-bottom: -4.1667%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 93%, transparent);
+          mask-image: linear-gradient(to bottom, #000 93%, transparent);
+}
+/* On phones, crop the top of a film whose drawn title would be too small to read */
+@media (max-width: 760px) {
+  .cs-band--crop-m { aspect-ratio: var(--ar-m, var(--ar)); }
+  .cs-band--crop-m > .cs-video { object-position: bottom; }
+  .cs-band--crop-m.cs-band--xfade {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 93%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 93%, transparent);
+  }
+}
