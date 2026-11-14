@@ -145,3 +145,41 @@ img { display: block; max-width: 100%; }
 .cs-band--reveal.is-in > picture img { opacity: 1; transform: none; }
 .cs-panel .cs-tags { font-size: 13px; letter-spacing: .04em; opacity: .7; }
 @media (prefers-reduced-motion: reduce) { .cs-band--reveal > picture img { opacity: 1; transform: none; transition: none; } }
+
+/* ---- Video bands (a looping film in place of a still) -------------------- */
+.cs-band > .cs-video {
+  position: absolute; left: 0; top: 0;
+  width: 100%; height: calc(100% + 1.5px);
+  object-fit: cover; object-position: top;
+  display: block;
+}
+.cs-band--intro > .cs-video {
+  animation: cs-intro 1.8s cubic-bezier(.16,1,.3,1) both;
+  transform-origin: 50% 30%;
+}
+/* soft fade into the next band, so there's no hard edge where the film ends */
+.cs-band--video { overflow: hidden; }
+.cs-band--video::after {
+  content: ""; position: absolute; z-index: 1; left: 0; right: 0; bottom: -1.5px;
+  height: 6%; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, var(--seam, var(--bg)));
+}
+@media (prefers-reduced-motion: reduce) { .cs-band--intro > .cs-video { animation: none; } }
+
+/* Live "Back" link, for bands where it isn't drawn into the artwork */
+.cs-back {
+  position: absolute; z-index: 4; left: 2.0833%; top: 2.06vw;
+  display: inline-flex; align-items: center; gap: .55em;
+  padding: 10px 4px; margin: -10px -4px;
+  font-family: var(--pfont, system-ui), system-ui, sans-serif;
+  font-size: clamp(13px, 1.04vw, 18px); line-height: 1;
+  color: var(--ink, #F1EAE2); text-decoration: none;
+}
+.cs-back svg { width: 1.75em; height: auto; transition: transform .5s cubic-bezier(.16,1,.3,1); }
+.cs-back:hover svg { transform: translateX(-4px); }
+.cs-back:focus-visible { outline: 1px solid var(--ink, #fff); outline-offset: 3px; border-radius: 4px; }
+@media (max-width: 760px) {
+  /* the film is short on phones, so Back gets its own strip above it */
+  .cs-page:has(> .cs-back) { padding-top: 48px; }
+  .cs-back { top: 15px; left: 20px; font-size: 14px; }
+}

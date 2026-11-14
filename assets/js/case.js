@@ -70,4 +70,15 @@
       band.addEventListener('pointerleave', () => own.forEach((l) => { l.style.setProperty('--rx', '0deg'); l.style.setProperty('--ry', '0deg'); }));
     });
   }
+
+  /* ---- Looping films: still frame for reduced motion, pause when off screen */
+  const films = [...document.querySelectorAll('.cs-video')];
+  const play = (v) => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+  if (reduce) films.forEach((v) => { v.removeAttribute('autoplay'); v.pause(); v.currentTime = 0; });
+  else if ('IntersectionObserver' in window) {
+    const vio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? play(e.target) : e.target.pause()));
+    }, { threshold: 0 });
+    films.forEach((v) => vio.observe(v));
+  }
 })();
