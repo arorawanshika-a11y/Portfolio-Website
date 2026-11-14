@@ -183,3 +183,9 @@ img { display: block; max-width: 100%; }
   .cs-page:has(> .cs-back) { padding-top: 48px; }
   .cs-back { top: 15px; left: 20px; font-size: 14px; }
 }
+/* and at the top, for films whose first rows carry a shadow from the recording */
+.cs-band--fade-top::before {
+  content: ""; position: absolute; z-index: 1; left: 0; right: 0; top: 0;
+  height: 6%; pointer-events: none;
+  background: linear-gradient(to top, transparent, var(--seam, var(--bg)));
+}
