@@ -86,7 +86,12 @@ body:not(.landed) .rail-mark, body:not(.landed) .mmark{visibility:hidden}
 .resume:hover svg{transform:translate(2px,-2px)}
 
 /* bottom right: email */
-.inq{right:var(--gut); bottom:18px; display:flex; flex-direction:column; align-items:flex-end; gap:8px}
+.inq{right:var(--gut); bottom:clamp(40px,6vh,64px); display:flex; flex-direction:column; align-items:flex-end; gap:14px}
+.inq .lbl{font-size:clamp(13px,1vw,15px); color:var(--cream); opacity:.62}
+.inq .lbl::before{display:none}
+.inq .pos{margin:0; text-align:right; font-family:var(--sans); font-size:clamp(22px,2.05vw,32px); font-weight:300; line-height:1.18; letter-spacing:-.02em; color:var(--cream)}
+.inq .pos span{display:block}
+.inq .pos em{font-family:var(--serif); font-style:italic; font-weight:500; font-size:1.16em; letter-spacing:-.005em; line-height:1}
 .inq .mail{font-size:clamp(14px,1.05vw,16px); font-weight:500; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; text-decoration-color:rgba(241,234,226,.45); transition:text-decoration-color .3s}
 .inq .mail:hover{text-decoration-color:var(--cream)}
 
@@ -120,12 +125,12 @@ body.ready .stage{opacity:1}
 @media (max-width:820px){
   .home{--cw:max(240px, min(92vw, 72svh))}
   .rail, .navwrap, .resume, .counter .row{display:none}
-  .inq .lbl{font-size:10px; gap:8px} .inq .lbl::before{width:18px}
+  .inq .lbl{font-size:11px; gap:8px}
   .mhead{display:flex; left:var(--gut); right:var(--gut); top:calc(14px + env(safe-area-inset-top,0px)); justify-content:space-between; align-items:center}
   .mhead .mmark{width:116px; color:var(--cream)} .mhead .mmark svg{display:block; width:100%; height:auto}
   .counter{left:var(--gut); top:auto; bottom:calc(10px + env(safe-area-inset-bottom,0px))}
   .num{font-size:76px}
-  .inq{bottom:calc(18px + env(safe-area-inset-bottom,0px))}
+  .inq{bottom:calc(34px + env(safe-area-inset-bottom,0px)); gap:10px} .inq .pos{font-size:19px; line-height:1.22; max-width:64vw} .inq .pos span{display:inline}
 }
 
 /* letter roll */
@@ -261,7 +266,7 @@ footer .clock{width:100%; text-align:center; font-size:14px; color:var(--stone);
     <span class="num" id="num">01</span>
   </div>
 
-  <div class="hud inq"><span class="lbl">Contact me at</span><a class="mail" href="mailto:arorawanshika@gmail.com">arorawanshika@gmail.com</a></div>
+  <div class="hud inq"><span class="lbl">Brand experience · Visual design</span><p class="pos"><span>I shape how brands <em>look, feel and show&nbsp;up,</em></span> <span>and I lead the people who build&nbsp;them.</span></p></div>
 </main>
 
 <div id="more" class="sheet" role="dialog" aria-modal="true" aria-hidden="true" aria-label="About, playground and contact">
