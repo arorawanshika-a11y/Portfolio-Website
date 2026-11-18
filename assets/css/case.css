@@ -211,3 +211,73 @@ img { display: block; max-width: 100%; }
             mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 93%, transparent);
   }
 }
+
+/* ---- Sticky nav ----------------------------------------------------------
+   Transparent over the hero; once you scroll it tucks into a slim frosted
+   bar in the page's own colours, shows the project name, and a hairline in
+   the accent colour fills as you read. */
+.cs-nav {
+  --ease: cubic-bezier(.16,1,.3,1);
+  position: fixed; inset: 0 0 auto 0; z-index: 60;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 26px 30px;
+  font-family: "Manrope", "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink, #F1EAE2);
+  -webkit-font-smoothing: antialiased;
+  transition: padding .5s var(--ease), background-color .5s, -webkit-backdrop-filter .5s, backdrop-filter .5s;
+}
+.cs-nav::after { content: ""; position: absolute; inset: auto 0 0 0; height: 1px; background: currentColor; opacity: 0; transition: opacity .5s; }
+.cs-nav a { color: inherit; text-decoration: none; }
+.cs-nav__wm { display: block; width: 118px; transition: width .5s var(--ease); }
+.cs-nav__wm svg { display: block; width: 100%; height: auto; }
+.cs-nav__links { display: flex; gap: 34px; }
+.cs-nav__links a {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; white-space: nowrap;
+  opacity: .82; transition: opacity .3s;
+}
+.cs-nav__links a:hover, .cs-nav__links a:focus-visible { opacity: 1; }
+.cs-nav__arr svg { display: block; height: 9px; width: auto; transition: transform .5s var(--ease); }
+.cs-nav__links a:hover .cs-nav__arr svg { transform: translateX(4px); }
+.cs-nav a:focus-visible { outline: 1px solid currentColor; outline-offset: 6px; border-radius: 2px; }
+.cs-nav__title {
+  position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+  display: flex; gap: 14px; align-items: baseline; white-space: nowrap; pointer-events: none;
+  opacity: 0; transform: translateY(6px); transition: opacity .45s, transform .6s var(--ease);
+}
+.cs-nav__idx { font-size: 12px; font-weight: 500; letter-spacing: .18em; opacity: .55; }
+.cs-nav__name { font-family: "Cormorant Garamond", Georgia, serif; font-style: italic; font-weight: 500; font-size: 22px; line-height: 1; }
+.cs-nav__prog {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 1px; z-index: 1;
+  background: var(--accent, currentColor); transform-origin: 0 50%; transform: scaleX(var(--p, 0));
+  opacity: 0; transition: opacity .4s;
+}
+.cs-nav.is-stuck {
+  padding: 14px 30px;
+  background: color-mix(in srgb, var(--bg, #0E0F0F) 74%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3); backdrop-filter: blur(16px) saturate(1.3);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .cs-nav.is-stuck { background: color-mix(in srgb, var(--bg, #0E0F0F) 95%, transparent); }
+}
+.cs-nav.is-stuck::after { opacity: .1; }
+.cs-nav.is-stuck .cs-nav__wm { width: 92px; }
+.cs-nav.is-stuck .cs-nav__title { opacity: 1; transform: none; }
+.cs-nav.is-stuck .cs-nav__prog { opacity: 1; }
+
+@media (max-width: 760px) {
+  .cs-page { padding-top: 58px; }
+  .cs-nav { padding: 16px 18px; }
+  .cs-nav.is-stuck { padding: 12px 18px; }
+  .cs-nav__wm { width: 96px; }
+  .cs-nav.is-stuck .cs-nav__wm { width: 82px; }
+  .cs-nav__links { gap: 22px; }
+  .cs-nav__links a { font-size: 10.5px; letter-spacing: .14em; gap: 8px; }
+  .cs-nav__about, .cs-nav__title { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs-nav, .cs-nav *, .cs-nav::after { transition: none !important; }
+}
+
+/* Pages whose hero starts with type at the very top: leave room for the bar */
+@media (min-width: 761px) { .cs-page--clear { padding-top: clamp(64px, 5.6vw, 84px); } }

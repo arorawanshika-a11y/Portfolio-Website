@@ -82,3 +82,20 @@
     films.forEach((v) => vio.observe(v));
   }
 })();
+
+/* Sticky nav: tuck into a bar once the page moves, and fill the reading line */
+(() => {
+  const nav = document.querySelector('[data-nav]');
+  if (!nav) return;
+  const bar = nav.querySelector('.cs-nav__prog');
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    nav.classList.toggle('is-stuck', window.scrollY > 40);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (bar) bar.style.setProperty('--p', max > 0 ? Math.min(window.scrollY / max, 1) : 0);
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
