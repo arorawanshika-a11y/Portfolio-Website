@@ -186,6 +186,13 @@ body.ready .stage{opacity:1}
 .roll .ch{display:inline-block; overflow:hidden; height:1.08em; line-height:1.08}
 .roll .ch b{display:block; font-weight:inherit; transition:transform .55s var(--out); transition-delay:calc(var(--i) * 18ms)}
 a:hover .roll .ch b, button:hover .roll .ch b, a:focus-visible .roll .ch b, button:focus-visible .roll .ch b{transform:translateY(-100%)}
+/* playground is not ready yet: on hover (or a tap on phones) it rolls to "Coming soon" */
+.soonbox{cursor:default}
+.soon{display:inline-block; overflow:hidden; height:1.08em; line-height:1.08; vertical-align:top}
+.soon > span{display:flex; flex-direction:column; gap:.6em; transition:transform .55s var(--out)}
+.soon i{display:block; height:1.08em; font-style:normal; white-space:nowrap}
+.soon i + i{color:var(--stone)}
+.soonbox:hover .soon > span, .soonbox:focus-visible .soon > span, .soonbox.tap .soon > span{transform:translateY(-1.68em)}
 
 /* the cursor: a pair of eyes that follow you around and blink */
 html.eyes, html.eyes *{cursor:none !important}
@@ -296,8 +303,8 @@ footer .clock{width:100%; text-align:center; font-size:14px; color:var(--stone);
     <nav class="bignav" aria-label="Main">
       <a href="#" class="on" aria-current="page">Work</a>
       <a href="/about/"><span class="roll" data-roll="About"></span></a>
-      <button data-more="playground"><span class="roll" data-roll="Playground"></span></button>
-      <button data-more="contact"><span class="roll" data-roll="Contact"></span></button>
+      <button type="button" class="soonbox" aria-disabled="true" aria-label="Playground, coming soon"><span class="soon" aria-hidden="true"><span><i>Playground</i><i>Coming soon</i></span></span></button>
+      <a href="/about/#contact"><span class="roll" data-roll="Contact"></span></a>
     </nav>
   </div>
   <a class="hud resume" href="#" data-link="resume"><span class="roll" data-roll="Resume"></span><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M1 7 7 1M2.5 1H7v4.5"/></svg></a>
@@ -370,8 +377,8 @@ footer .clock{width:100%; text-align:center; font-size:14px; color:var(--stone);
   <ul>
     <li><a href="#" data-close><span class="roll" data-roll="Work"></span></a></li>
     <li><a href="/about/"><span class="roll" data-roll="About"></span></a></li>
-    <li><button data-more="playground"><span class="roll" data-roll="Playground"></span></button></li>
-    <li><button data-more="contact"><span class="roll" data-roll="Contact"></span></button></li>
+    <li><button type="button" class="soonbox" aria-disabled="true" aria-label="Playground, coming soon"><span class="soon" aria-hidden="true"><span><i>Playground</i><i>Coming soon</i></span></span></button></li>
+    <li><a href="/about/#contact"><span class="roll" data-roll="Contact"></span></a></li>
   </ul>
   <div class="mfoot">
     <div data-clock></div>
@@ -731,6 +738,7 @@ function setMore(open, anchor){
   setTimeout(recheckEyes, 950);
 }
 document.querySelectorAll("[data-more]").forEach(b => b.addEventListener("click", () => { setMenu(false); setMore(true, b.dataset.more); }));
+document.querySelectorAll(".soonbox").forEach(b => b.addEventListener("click", () => { b.classList.add("tap"); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove("tap"), 1800); }));
 document.getElementById("closeMore").onclick = () => setMore(false);
 
 const ring = document.getElementById("ring"), ringPath = document.getElementById("ringPath");
