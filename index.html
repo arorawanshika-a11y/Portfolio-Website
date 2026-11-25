@@ -282,6 +282,22 @@ footer .clock{width:100%; text-align:center; font-size:14px; color:var(--stone);
   *,*::before,*::after{transition-duration:.01ms !important; animation:none !important; transition-delay:0s !important}
 }
 </style>
+<!-- Analytics: Vercel Web Analytics + Speed Insights. step() logs a moment as its own entry under Pages, e.g. /step/past-intro -->
+<script>
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+window.step = function (p) { try { window.va("pageview", { route: p, path: p }); } catch (e) {} };
+document.addEventListener("click", function (e) {
+  var a = e.target.closest && e.target.closest("a[href]"); if (!a) return;
+  var h = a.getAttribute("href") || "";
+  if (/drive\.google|docs\.google|resume/i.test(h) || /resume/i.test(a.textContent)) step("/step/opened-resume");
+  else if (/^mailto:/i.test(h)) step("/step/clicked-email");
+  else if (/linkedin\.com/i.test(h)) step("/step/clicked-linkedin");
+  else if (/behance\.net/i.test(h)) step("/step/clicked-behance");
+}, true);
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -587,6 +603,7 @@ function leaveIntro(){
   if (!introOn) return;
   introOn = false;
   const b = document.body, D = reduce ? 0 : 1;
+  if (window.step) step("/step/past-intro");
   lockUntil = performance.now() + 1500;
   b.classList.add("intro-leave");
   /* Two acts that run into each other. First the line shrinks where it stands and re-sets as one line:

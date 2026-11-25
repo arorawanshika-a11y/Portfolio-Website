@@ -99,3 +99,17 @@
   window.addEventListener('resize', update);
   update();
 })();
+
+/* Analytics: log once when someone reads a case study to the end */
+(() => {
+  let done = false;
+  const check = () => {
+    if (done) return;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (max > 0 && window.scrollY / max > 0.9) {
+      done = true;
+      if (window.step) window.step('/step/finished' + location.pathname.replace(/\/$/, ''));
+    }
+  };
+  window.addEventListener('scroll', check, { passive: true });
+})();
